@@ -3,10 +3,11 @@ from evolved5g.swagger_client import LoginApi, User
 from evolved5g.swagger_client.models import Token
 import requests, json
 
+with open('config.json', 'r') as file:     config = json.load(file)
 
 def get_token() -> Token:
-    username = "admin@my-email.com"
-    password = "pass"
+    username = config['USERNAME']
+    password = config['PASSWORD']
     # User name and pass matches are set in the .env of the docker of NEF_EMULATOR. See
     # https://github.com/EVOLVED-5G/NEF_emulator
     configuration = swagger_client.Configuration()
@@ -27,11 +28,11 @@ def get_api_client(token) -> swagger_client.ApiClient:
     return api_client
 
 def read_qos() -> int:
-    response = requests.get(url='http://localhost:5000/qos',
+    response = requests.get(url=config['ENDPOINT_ADDRESS'],
                             headers=None,
                             data=None
                             )
     return response
 
 def get_host_of_the_nef_emulator() -> str:
-    return "http://localhost:8888"
+    return config['HOST_OF_THE_NEF_EMULATOR']

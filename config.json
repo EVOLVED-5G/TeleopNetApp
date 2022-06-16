@@ -1,0 +1,8 @@
+{
+	"UE_ID": "10.0.0.3",
+	"DESTINATION_ADDRESS" : "http://localhost:5000/monitoring/callback",
+	"ENDPOINT_ADDRESS" : "http://localhost:5000/qos",
+	"HOST_OF_THE_NEF_EMULATOR" : "http://localhost:8888",
+	"USERNAME" : "admin@my-email.com",
+	"PASSWORD" : "pass"
+}

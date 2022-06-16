@@ -28,3 +28,11 @@ Run the NetApp :
 ```
 rosrun TeleopNetApp main.py
 ```
+
+With Docker :
+First run TIAGo in simulation or launch the NetApp on a real robot
+```
+docker build --tag my_teleop_netapp .
+docker run --rm -it --name teleop_netapp --privileged --net=host my_teleop_netapp
+docker exec -i teleop_netapp /bin/bash -c '. devel/setup.bash; rosrun TeleopNetApp main.py'
+```

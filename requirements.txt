@@ -1,0 +1,7 @@
+evolved5g
+flask
+flask-cors
+uvloop
+httptools
+fastapi
+fastapi_utils

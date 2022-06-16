@@ -10,9 +10,10 @@ from evolved5g.swagger_client import UsageThreshold
 
 from multiprocessing import Process
 import rospy
-import uvicorn
 import time
 import json
+
+with open('config.json', 'r') as file:     config = json.load(file)
 
 from std_msgs.msg import String
 
@@ -39,7 +40,7 @@ def showcase_create_quaranteed_bit_rate_subscription_for_conversational_voice():
     # in the MEF if a user "10.0.0.3" is connected to Cell only by her self (she is the only connection within range)
     # the MEF guarantees the connection. If another user walks by, within the same Cell range then the connection is no
     # more guaranteed and a callback notification will be retrieved.
-    equipment_network_identifier = "10.0.0.3"
+    equipment_network_identifier = config['UE_ID']
     network_identifier = QosAwareness.NetworkIdentifier.IP_V4_ADDRESS
     conversational_voice = QosAwareness.GBRQosReference.CONVERSATIONAL_VOICE
     # In this scenario we monitor UPLINK
@@ -60,7 +61,7 @@ def showcase_create_quaranteed_bit_rate_subscription_for_conversational_voice():
     # For latest versions of docker this should be: http://host.docker.internal:5000/monitoring/callback"
     # Alternative you can find the ip of the HOST by running 'ip addr show | grep "\binet\b.*\bdocker0\b" | awk '{print $2}' | cut -d '/' -f 1'
     # See article for details: https://stackoverflow.com/questions/48546124/what-is-linux-equivalent-of-host-docker-internal/61001152
-    notification_destination="http://172.17.0.1:5000/monitoring/callback"
+    notification_destination=config['DESTINATION_ADDRESS']
 
     subscription = qos_awereness.create_guaranteed_bit_rate_subscription(
         netapp_id=netapp_id,
