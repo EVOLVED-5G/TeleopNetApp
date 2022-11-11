@@ -35,4 +35,7 @@ ENV FLASK_ENV=development
 
 #execute commands in the container
 COPY package_build.sh .
+COPY prepare.sh .
+COPY capif_registration.json .
+
 CMD ["./package_build.sh"]

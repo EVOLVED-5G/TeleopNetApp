@@ -32,7 +32,11 @@ def showcase_create_quaranteed_bit_rate_subscription_for_conversational_voice():
     netapp_id = "TeleopNetApp"
     host = simulator.get_host_of_the_nef_emulator()
     token = simulator.get_token()
-    qos_awereness = QosAwareness(host, token.access_token)
+    qos_awereness = QosAwareness(nef_url=simulator.get_url_of_the_nef_emulator(),
+                                 nef_bearer_access_token= simulator.get_token_for_nef_emulator().access_token,
+                                 folder_path_for_certificates_and_capif_api_key=simulator.get_folder_path_for_certificated_and_capif_api_key(),
+                                 capif_host=simulator.get_capif_host(),
+                                 capif_https_port=simulator.get_capif_https_port())
     # The following external identifier was copy pasted by the NEF emulator.
     # Go to the Map and hover over a User icon.There you can retrieve the id address.
     # Notice that the MEF emulator is able to establish a guaranteed bit rate only if one and only one user is connected to a shell
@@ -72,8 +76,7 @@ def showcase_create_quaranteed_bit_rate_subscription_for_conversational_voice():
         usage_threshold=usage_threshold,
         qos_monitoring_parameter=uplink,
         threshold=uplink_threshold,
-        wait_time_between_reports=10
-
+        reporting_mode= QosAwareness.EventTriggeredReportingConfiguration(wait_time_in_seconds=10)
     )
     # From now on we should retrieve POST notifications to http://172.17.0.1:5000/monitoring/callback
     # every time:
@@ -93,9 +96,13 @@ def showcase_create_quaranteed_bit_rate_subscription_for_conversational_voice():
 def read_and_delete_all_existing_subscriptions():
     # How to get all subscriptions
     netapp_id = "TeleopNetApp"
-    host = simulator.get_host_of_the_nef_emulator()
-    token = simulator.get_token()
-    qos_awareness = QosAwareness(host, token.access_token)
+    host = simulator.get_url_of_the_nef_emulator()
+    token = simulator.get_token_for_nef_emulator()
+    qos_awareness = QosAwareness(nef_url=simulator.get_url_of_the_nef_emulator(),
+                                 nef_bearer_access_token= simulator.get_token_for_nef_emulator().access_token,
+                                 folder_path_for_certificates_and_capif_api_key=simulator.get_folder_path_for_certificated_and_capif_api_key(),
+                                 capif_host=simulator.get_capif_host(),
+                                 capif_https_port=simulator.get_capif_https_port())
 
     try:
         all_subscriptions = qos_awareness.get_all_subscriptions(netapp_id)
@@ -125,4 +132,3 @@ if __name__ == "__main__":
     rospy.init_node('qos_node', anonymous=True)
     rospy.Timer(rospy.Duration(0.5), timer_qos)
     rospy.spin()
-    read_and_delete_all_existing_subscriptions()
