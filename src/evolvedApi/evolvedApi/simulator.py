@@ -12,7 +12,7 @@ def get_token_for_nef_emulator() -> Token:
     # https://github.com/EVOLVED-5G/NEF_emulator
     configuration = swagger_client.Configuration()
     # The host of the 5G API (emulator)
-    configuration.host = get_url_of_the_nef_emulator()
+    configuration.host = get_host_of_the_nef_emulator()
     api_client = swagger_client.ApiClient(configuration=configuration)
     api_client.select_header_content_type(["application/x-www-form-urlencoded"])
     api = LoginApi(api_client)
@@ -34,7 +34,7 @@ def read_qos() -> int:
                             )
     return response
 
-def get_url_of_the_nef_emulator() -> str:
+def get_host_of_the_nef_emulator() -> str:
     return config['HOST_OF_THE_NEF_EMULATOR']
 
 def get_folder_path_for_certificated_and_capif_api_key()->str:

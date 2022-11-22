@@ -20,36 +20,23 @@ from std_msgs.msg import String
 import evolvedApi.simulator as simulator
 
 
-def showcase_create_quaranteed_bit_rate_subscription_for_conversational_voice():
-    """
-        This example showcases how you can create a subscription to the 5G-API in order to establish
-        a Guaranteed Bit Rate (NON-GBR) QoS.
-        In order to run this example you need to follow the instructions in  readme.md in order to
-        a) run the NEF emulator and
-        b) run a local webserver that will print the location notifications it retrieves from the emulator.
-        A testing local webserver (Flask webserver) can be initiated by running the examples/api.py
-    """
+def create_guaranteed_bit_rate_subscription_teleoperation():
+
     netapp_id = "TeleopNetApp"
     host = simulator.get_host_of_the_nef_emulator()
-    token = simulator.get_token()
-    qos_awereness = QosAwareness(nef_url=simulator.get_url_of_the_nef_emulator(),
-                                 nef_bearer_access_token= simulator.get_token_for_nef_emulator().access_token,
+    token = simulator.get_token_for_nef_emulator()
+    qos_awereness = QosAwareness(nef_url=host,
+                                 nef_bearer_access_token= token.access_token,
                                  folder_path_for_certificates_and_capif_api_key=simulator.get_folder_path_for_certificated_and_capif_api_key(),
                                  capif_host=simulator.get_capif_host(),
                                  capif_https_port=simulator.get_capif_https_port())
-    # The following external identifier was copy pasted by the NEF emulator.
-    # Go to the Map and hover over a User icon.There you can retrieve the id address.
-    # Notice that the MEF emulator is able to establish a guaranteed bit rate only if one and only one user is connected to a shell
-    # This is done in purpose in the NEF emulator, to allow testing the lost of guaranteed connectivity to your code
-    # in the MEF if a user "10.0.0.3" is connected to Cell only by her self (she is the only connection within range)
-    # the MEF guarantees the connection. If another user walks by, within the same Cell range then the connection is no
-    # more guaranteed and a callback notification will be retrieved.
+
     equipment_network_identifier = config['UE_ID']
     network_identifier = QosAwareness.NetworkIdentifier.IP_V4_ADDRESS
     conversational_voice = QosAwareness.GBRQosReference.CONVERSATIONAL_VOICE
-    # In this scenario we monitor UPLINK
+
     uplink = QosAwareness.QosMonitoringParameter.UPLINK
-    # Minimum delay of data package during uplink, in milliseconds
+
     uplink_threshold = 20
     gigabyte = 1024 * 1024 * 1024
     # Up to 10 gigabytes 5 GB downlink, 5gb uplink
@@ -59,12 +46,6 @@ def showcase_create_quaranteed_bit_rate_subscription_for_conversational_voice():
                                      uplink_volume=5 * gigabyte  # 5 Gigabytes for uplink
                                      )
 
-    # In this example we are running flask at http://localhost:5000 with a POST route to (/monitoring/callback) in order to retrieve notifications.
-    # If you are running on the NEF emulator, you need to provide a notification_destination with an IP that the
-    # NEF emulator docker can understand
-    # For latest versions of docker this should be: http://host.docker.internal:5000/monitoring/callback"
-    # Alternative you can find the ip of the HOST by running 'ip addr show | grep "\binet\b.*\bdocker0\b" | awk '{print $2}' | cut -d '/' -f 1'
-    # See article for details: https://stackoverflow.com/questions/48546124/what-is-linux-equivalent-of-host-docker-internal/61001152
     notification_destination=config['DESTINATION_ADDRESS']
 
     subscription = qos_awereness.create_guaranteed_bit_rate_subscription(
@@ -78,11 +59,6 @@ def showcase_create_quaranteed_bit_rate_subscription_for_conversational_voice():
         threshold=uplink_threshold,
         reporting_mode= QosAwareness.EventTriggeredReportingConfiguration(wait_time_in_seconds=10)
     )
-    # From now on we should retrieve POST notifications to http://172.17.0.1:5000/monitoring/callback
-    # every time:
-    # a) two users connect to the same cell at the same time  (which is how NEF simulates loss of GBT), or
-    # b) when Usage threshold is exceeded(notice this is not supported by the NEF, so you will never retrieve this notification while testing with the NEF)
-
     print("--- PRINTING THE SUBSCRIPTION WE JUST CREATED ----")
     print(subscription)
 
@@ -92,14 +68,13 @@ def showcase_create_quaranteed_bit_rate_subscription_for_conversational_voice():
     print("--- RETRIEVING INFORMATION ABOUT SUBSCRIPTION " + id + "----")
     print(subscription_info)
 
-
 def read_and_delete_all_existing_subscriptions():
     # How to get all subscriptions
     netapp_id = "TeleopNetApp"
-    host = simulator.get_url_of_the_nef_emulator()
+    host = simulator.get_host_of_the_nef_emulator()
     token = simulator.get_token_for_nef_emulator()
-    qos_awareness = QosAwareness(nef_url=simulator.get_url_of_the_nef_emulator(),
-                                 nef_bearer_access_token= simulator.get_token_for_nef_emulator().access_token,
+    qos_awareness = QosAwareness(nef_url=host,
+                                 nef_bearer_access_token= token.access_token,
                                  folder_path_for_certificates_and_capif_api_key=simulator.get_folder_path_for_certificated_and_capif_api_key(),
                                  capif_host=simulator.get_capif_host(),
                                  capif_https_port=simulator.get_capif_https_port())
@@ -126,9 +101,9 @@ def timer_qos(event):
 
 
 if __name__ == "__main__":
-    read_and_delete_all_existing_subscriptions()
-    showcase_create_quaranteed_bit_rate_subscription_for_conversational_voice()
+    create_guaranteed_bit_rate_subscription_teleoperation()
     pub = rospy.Publisher('qos', String, queue_size=10)
     rospy.init_node('qos_node', anonymous=True)
     rospy.Timer(rospy.Duration(0.5), timer_qos)
     rospy.spin()
+    read_and_delete_all_existing_subscriptions()
