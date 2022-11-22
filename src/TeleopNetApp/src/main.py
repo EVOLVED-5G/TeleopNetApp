@@ -13,7 +13,7 @@ import rospy
 import time
 import json
 
-with open('config.json', 'r') as file:     config = json.load(file)
+import os
 
 from std_msgs.msg import String
 
@@ -31,7 +31,7 @@ def create_guaranteed_bit_rate_subscription_teleoperation():
                                  capif_host=simulator.get_capif_host(),
                                  capif_https_port=simulator.get_capif_https_port())
 
-    equipment_network_identifier = config['UE_ID']
+    equipment_network_identifier = os.environ.get('UE_ID')
     network_identifier = QosAwareness.NetworkIdentifier.IP_V4_ADDRESS
     conversational_voice = QosAwareness.GBRQosReference.CONVERSATIONAL_VOICE
 
@@ -46,7 +46,7 @@ def create_guaranteed_bit_rate_subscription_teleoperation():
                                      uplink_volume=5 * gigabyte  # 5 Gigabytes for uplink
                                      )
 
-    notification_destination=config['DESTINATION_ADDRESS']
+    notification_destination=os.environ.get('DESTINATION_ADDRESS')
 
     subscription = qos_awereness.create_guaranteed_bit_rate_subscription(
         netapp_id=netapp_id,
@@ -101,9 +101,9 @@ def timer_qos(event):
 
 
 if __name__ == "__main__":
+    read_and_delete_all_existing_subscriptions()
     create_guaranteed_bit_rate_subscription_teleoperation()
     pub = rospy.Publisher('qos', String, queue_size=10)
     rospy.init_node('qos_node', anonymous=True)
     rospy.Timer(rospy.Duration(0.5), timer_qos)
     rospy.spin()
-    read_and_delete_all_existing_subscriptions()

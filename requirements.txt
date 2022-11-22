@@ -3,5 +3,6 @@ flask
 flask-cors
 uvloop
 httptools
+requests
 fastapi
 fastapi_utils
