@@ -103,7 +103,7 @@ def timer_qos(event):
 if __name__ == "__main__":
     read_and_delete_all_existing_subscriptions()
     create_guaranteed_bit_rate_subscription_teleoperation()
-    #pub = rospy.Publisher('qos', String, queue_size=10)
-    #rospy.init_node('qos_node', anonymous=True)
-    #rospy.Timer(rospy.Duration(0.5), timer_qos)
-    #rospy.spin()
+    pub = rospy.Publisher('qos', String, queue_size=10)
+    rospy.init_node('qos_node', anonymous=True)
+    rospy.Timer(rospy.Duration(0.5), timer_qos)
+    rospy.spin()
