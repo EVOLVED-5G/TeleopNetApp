@@ -13,7 +13,7 @@ FROM ros:noetic
 
 # install dependencies
 WORKDIR /app
-RUN apt update && apt install -y python3-pip python3-catkin-tools
+RUN apt update && apt install -y python3-pip python3-catkin-tools jq
 COPY requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt
 
