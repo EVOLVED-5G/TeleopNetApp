@@ -11,7 +11,6 @@
 
 FROM ros:noetic
 
-
 # install dependencies
 WORKDIR /app
 RUN apt update && apt install -y python3-pip python3-catkin-tools
