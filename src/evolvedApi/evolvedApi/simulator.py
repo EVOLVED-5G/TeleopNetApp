@@ -51,11 +51,11 @@ def get_capif_host()->str:
     127.0.0.1       capifcore
     :return:
     """
-    return "capifcore"
+    return os.environ.get('CAPIF_HOSTNAME')
 
 def get_capif_https_port()->int:
     """
     This is the default https port when running CAPIF via docker
     :return:
     """
-    return 443
+    return os.environ.get('CAPIF_PORT_HTTPS')
