@@ -107,3 +107,4 @@ if __name__ == "__main__":
     rospy.init_node('qos_node', anonymous=True)
     rospy.Timer(rospy.Duration(0.5), timer_qos)
     rospy.spin()
+    read_and_delete_all_existing_subscriptions()
