@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 from evolved5g import swagger_client
 from evolved5g.swagger_client import LoginApi, User
-from evolved5g.swagger_client.models import Token
 
 from evolved5g.swagger_client.rest import ApiException
 
@@ -24,9 +23,7 @@ def create_guaranteed_bit_rate_subscription_teleoperation():
 
     netapp_id = "TeleopNetApp"
     host = simulator.get_host_of_the_nef_emulator()
-    token = simulator.get_token_for_nef_emulator()
     qos_awereness = QosAwareness(nef_url=host,
-                                 nef_bearer_access_token= token.access_token,
                                  folder_path_for_certificates_and_capif_api_key=simulator.get_folder_path_for_certificated_and_capif_api_key(),
                                  capif_host=simulator.get_capif_host(),
                                  capif_https_port=simulator.get_capif_https_port())
@@ -72,9 +69,7 @@ def read_and_delete_all_existing_subscriptions():
     # How to get all subscriptions
     netapp_id = "TeleopNetApp"
     host = simulator.get_host_of_the_nef_emulator()
-    token = simulator.get_token_for_nef_emulator()
     qos_awareness = QosAwareness(nef_url=host,
-                                 nef_bearer_access_token= token.access_token,
                                  folder_path_for_certificates_and_capif_api_key=simulator.get_folder_path_for_certificated_and_capif_api_key(),
                                  capif_host=simulator.get_capif_host(),
                                  capif_https_port=simulator.get_capif_https_port())

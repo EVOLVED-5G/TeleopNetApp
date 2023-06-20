@@ -1,24 +1,8 @@
 from evolved5g import swagger_client
 from evolved5g.swagger_client import LoginApi, User
-from evolved5g.swagger_client.models import Token
 import requests, json
 
 import os
-
-def get_token_for_nef_emulator() -> Token:
-    username = os.environ.get('USERNAME')
-    password = os.environ.get('PASSWORD')
-    # User name and pass matches are set in the .env of the docker of NEF_EMULATOR. See
-    # https://github.com/EVOLVED-5G/NEF_emulator
-    configuration = swagger_client.Configuration()
-    # The host of the 5G API (emulator)
-    configuration.host = get_host_of_the_nef_emulator()
-    configuration.verify_ssl = False
-    api_client = swagger_client.ApiClient(configuration=configuration)
-    api_client.select_header_content_type(["application/x-www-form-urlencoded"])
-    api = LoginApi(api_client)
-    token = api.login_access_token_api_v1_login_access_token_post("", username, password, "", "", "")
-    return token
 
 def read_qos() -> int:
     response = requests.get(url=os.environ.get('ENDPOINT_ADDRESS'),
