@@ -36,5 +36,6 @@ ENV FLASK_ENV=development
 COPY package_build.sh .
 COPY prepare.sh .
 COPY capif_registration.json .
+COPY tsn_sub.py .
 
 CMD ["./package_build.sh"]
