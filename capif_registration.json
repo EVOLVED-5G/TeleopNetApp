@@ -3,7 +3,7 @@
   "capif_host": "capifcore",
   "capif_http_port": 8080,
   "capif_https_port": 443,
-  "capif_netapp_username": "TeleopNetApp_PAL_123456789",
+  "capif_netapp_username": "TeleopNetApp_PAL_12345674545689",
   "capif_netapp_password": "TeleopNetApp146465423",
   "capif_callback_url": "http://localhost:5000",
   "description": "Teleoperation NetApp",
