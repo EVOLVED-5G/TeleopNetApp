@@ -1,0 +1,105 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: palnetapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: palnetapp
+  template:
+    metadata:
+      labels:
+        app: palnetapp
+    spec:
+      containers:
+        - name: palnetapp
+          image: thomaspeyrucainpal/teleopnetworkapp:v4
+          imagePullPolicy: Always 
+          env:
+            - name: UE_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: pal-configmap
+                  key: UE_ID
+            - name: ENVIRONMENT
+              valueFrom:
+                configMapKeyRef:
+                  name: pal-configmap
+                  key: ENVIRONMENT
+            - name: DESTINATION_ADDRESS
+              valueFrom:
+                configMapKeyRef:
+                  name: pal-configmap
+                  key: DESTINATION_ADDRESS
+            - name: ENDPOINT_ADDRESS
+              valueFrom:
+                configMapKeyRef:
+                  name: pal-configmap
+                  key: ENDPOINT_ADDRESS
+            - name: HOST_OF_THE_NEF_EMULATOR
+              valueFrom:
+                configMapKeyRef:
+                  name: pal-configmap
+                  key: HOST_OF_THE_NEF_EMULATOR
+            - name: USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: pal-configmap
+                  key: USERNAME
+            - name: PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: pal-configmap
+                  key: PASSWORD
+            - name: CAPIF_HOSTNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: pal-configmap
+                  key: CAPIF_HOSTNAME
+            - name: CAPIF_PORT_HTTP
+              valueFrom:
+                configMapKeyRef:
+                  name: pal-configmap
+                  key: CAPIF_PORT_HTTP
+            - name: CAPIF_PORT_HTTPS
+              valueFrom:
+                configMapKeyRef:
+                  name: pal-configmap
+                  key: CAPIF_PORT_HTTPS
+            - name: CALLBACK_ADDRESS
+              valueFrom:
+                configMapKeyRef:
+                  name: pal-configmap
+                  key: CALLBACK_ADDRESS
+            - name: ROBOT_ROS_MASTER_URI
+              valueFrom:
+                configMapKeyRef:
+                  name: pal-configmap
+                  key: ROBOT_ROS_MASTER_URI
+            - name: PC_ROS_IP
+              valueFrom:
+                configMapKeyRef:
+                  name: pal-configmap
+                  key: PC_ROS_IP
+            - name: TSN_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: pal-configmap
+                  key: TSN_HOST
+            - name: TSN_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: pal-configmap
+                  key: TSN_PORT
+          ports:
+          - containerPort: 9999
+          - containerPort: 9988
+          - containerPort: 9877
+      hostAliases:
+      - hostnames:
+        - pal-robotics-nef.apps.ocp-epg.hi.inet
+        - pal-robotics-capif.apps.ocp-epg.hi.inet
+        ip: 10.11.23.49
+
+---

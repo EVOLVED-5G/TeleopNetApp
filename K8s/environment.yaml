@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pal-configmap
+data:
+  UE_ID: 10.0.0.3
+  ENVIRONMENT: development
+  DESTINATION_ADDRESS: https://pal-robotics-capif.apps.ocp-epg.hi.inet:80
+  ENDPOINT_ADDRESS: http://pal-robotics-nef.apps.ocp-epg.hi.inet:5000/qos
+  HOST_OF_THE_NEF_EMULATOR: https://pal-robotics-nef.apps.ocp-epg.hi.inet:80
+  USERNAME: admin@my-email.com
+  PASSWORD: pass
+  CAPIF_HOSTNAME: pal-robotics-capif.apps.ocp-epg.hi.inet
+  CAPIF_PORT_HTTP: 80
+  CAPIF_PORT_HTTPS: 443
+  CALLBACK_ADDRESS: http://pal-robotics-nef.apps.ocp-epg.hi.inet:5000
+  ROBOT_ROS_MASTER_URI: http://tiago-41c:11311
+  PC_ROS_IP: localhost
+  TSN_HOST: "127.0.0.1"
+  TSN_PORT: 8899
