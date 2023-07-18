@@ -1,4 +1,4 @@
-evolved5g==1.0.7
+evolved5g==1.0.8
 flask==2.2.2
 flask-cors==3.0.10
 uvloop==0.17.0
