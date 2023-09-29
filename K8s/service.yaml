@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: palnetapp
+  name: palnetworkapp
 spec:
   selector:
-    app: palnetapp
+    app: palnetworkapp
   ports:
     - protocol: TCP
       port: 5000

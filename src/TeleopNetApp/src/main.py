@@ -21,7 +21,7 @@ import evolvedApi.simulator as simulator
 
 def create_guaranteed_bit_rate_subscription_teleoperation():
 
-    netapp_id = "TeleopNetApp"
+    netapp_id = os.environ.get('NETAPP_ID')
     host = simulator.get_host_of_the_nef_emulator()
     qos_awereness = QosAwareness(nef_url=host,
                                  folder_path_for_certificates_and_capif_api_key=simulator.get_folder_path_for_certificated_and_capif_api_key(),
@@ -67,7 +67,7 @@ def create_guaranteed_bit_rate_subscription_teleoperation():
 
 def read_and_delete_all_existing_subscriptions():
     # How to get all subscriptions
-    netapp_id = "TeleopNetApp"
+    netapp_id = os.environ.get('NETAPP_ID')
     host = simulator.get_host_of_the_nef_emulator()
     qos_awareness = QosAwareness(nef_url=host,
                                  folder_path_for_certificates_and_capif_api_key=simulator.get_folder_path_for_certificated_and_capif_api_key(),
@@ -96,10 +96,11 @@ def timer_qos(event):
 
 
 if __name__ == "__main__":
-    read_and_delete_all_existing_subscriptions()
     create_guaranteed_bit_rate_subscription_teleoperation()
+    rospy.sleep(15)
     pub = rospy.Publisher('qos', String, queue_size=10)
     rospy.init_node('qos_node', anonymous=True)
     rospy.Timer(rospy.Duration(0.5), timer_qos)
     rospy.spin()
     read_and_delete_all_existing_subscriptions()
+    rospy.sleep(15)
