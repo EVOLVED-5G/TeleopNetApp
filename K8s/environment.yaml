@@ -4,7 +4,7 @@ metadata:
   name: pal-configmap
 data:
   UE_ID: 10.0.0.3
-  ENVIRONMENT: development
+  ENVIRONMENT_MODE: development
   DESTINATION_ADDRESS: https://pal-robotics-capif.apps.ocp-epg.hi.inet:80
   ENDPOINT_ADDRESS: http://pal-robotics-nef.apps.ocp-epg.hi.inet:5000/qos
   HOST_OF_THE_NEF_EMULATOR: https://pal-robotics-nef.apps.ocp-epg.hi.inet:80

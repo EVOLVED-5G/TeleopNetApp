@@ -22,11 +22,11 @@ spec:
                 configMapKeyRef:
                   name: pal-configmap
                   key: UE_ID
-            - name: ENVIRONMENT
+            - name: ENVIRONMENT_MODE
               valueFrom:
                 configMapKeyRef:
                   name: pal-configmap
-                  key: ENVIRONMENT
+                  key: ENVIRONMENT_MODE
             - name: DESTINATION_ADDRESS
               valueFrom:
                 configMapKeyRef:
